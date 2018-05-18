@@ -8,7 +8,18 @@ First, a list of universities and colleges will be scraped from links on three d
 * [http://www.studentsreview.com/college-search/lists-of-colleges-in-city.php3](http://www.studentsreview.com/college-search/lists-of-colleges-in-city.php3)
 * [http://www.studentsreview.com/AL/](http://www.studentsreview.com/AL/)
 
+The first two pages contain links to search results of schools with different search terms.
+
 The third page is a list of universities in Alabama (AL) but it also contains a navigation bar with links to pages containing a list of universities in other states and some countries (ex. Canada, UK, China). We use the navigation bar to scrape the list of universities beyond those in Alabama.
+
+We create two scrapers. One called [via_search.py](scraping_studentsreviews/spiders/via_search.py) which extracts a link to each school's information page via the first two pages (above). The second scraper also scrapes links but through the third page (above).
+
+To run the scraper to obtain the links via search, run.
+```
+cd path/to/repository/
+scrapy crawl via_search -o 'data/schools_via_search_categories.csv'
+```
+
 
 Once a list of institutions has been created, we remove duplicates and go the comments page of each university and scrape the comments.
 
@@ -17,10 +28,3 @@ Once a list of institutions has been created, we remove duplicates and go the co
 ## Resources
 
 * A gentle reminder about working with relative xpaths: After obtaining a set of elements using xpath, we can then extract another set of elements inside those elements but a `.` must be prefixed, esp. if the leading relative xpath starts with a `/`. [link](https://doc.scrapy.org/en/latest/topics/selectors.html#working-with-relative-xpaths)
-* Scraping Authority. _Crawling with Scrapy – Exporting Json and CSV_. [link](http://www.scrapingauthority.com/2016/09/19/scrapy-exporting-json-and-csv/)
-  ```
-  scrapy crawl reddit -s FEED_URI='/home/user/folder/mydata.csv' -s FEED_FORMAT=csv
-  scrapy crawl reddit -set FEED_URI='mydata.json' -set FEED_FORMAT=json
-  ```
-  See Feed exports for more information. [link](https://doc.scrapy.org/en/latest/topics/feed-exports.html#topics-feed-exports).
-* 

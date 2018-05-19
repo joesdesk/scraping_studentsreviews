@@ -13,7 +13,7 @@ class CommentCrawler(scrapy.Spider):
     def start_requests(self):
 
         # Links from search
-        links = pd.read_csv('../../data/schools_via_search_categories.csv')
+        links = pd.read_csv('../../data/schools_via_search.csv')
         search_links = links['school link'].tolist()
 
         # Links from listings

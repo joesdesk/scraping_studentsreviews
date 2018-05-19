@@ -46,8 +46,7 @@ class ViaSearchSpider(scrapy.Spider):
             school_page = result.xpath('div/a[1]/text()').extract_first()
             school_link = result.xpath('div/a[1]/@href').extract_first()
 
-            yield {'school page': school_page,
-                   'school link': school_link }
+            yield {'school link': school_link}
 
         # Check next page of results via recursion
         page_url = response.meta['page_url']

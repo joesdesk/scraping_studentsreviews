@@ -31,13 +31,13 @@ class ReviewsSpider(scrapy.Spider):
         portfolio = '//div[@class="portfolioContainer"]/'
 
         # About student
-        summary_xpath = portfolio_container_xpath
+        summary_xpath = portfolio
         l.add_xpath('gender', summary_xpath+'div[2]/span/text()' )
         l.add_xpath('intelligence', summary_xpath+'div[3]/span/text()' )
         l.add_xpath('summary', summary_xpath+'div[5]/text()' )
 
         # Ratings provided by a student
-        ratings_xpath = portfolio_container_xpath + 'div[1]/table/'
+        ratings_xpath = portfolio + 'div[1]/table/'
         l.add_xpath('educational_quality', ratings_xpath+'tr[1]/td[2]/font/text()' )
         l.add_xpath('faculty_accessibility', ratings_xpath+'tr[2]/td[4]/font/text()' )
         l.add_xpath('useful_schoolwork', ratings_xpath+'tr[2]/td[2]/font/text()' )

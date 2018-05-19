@@ -51,6 +51,9 @@ class CommentCrawler(scrapy.Spider):
 
         # Get link to full review
         for container in comment_containers:
+
+            # TODO: also extract the year and class of the student, which is missing from
+            # the full review page
             full_review_link = container.xpath('div[3]/a/@href').extract()
 
 

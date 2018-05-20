@@ -33,8 +33,8 @@ class CommentCrawler(scrapy.Spider):
 
         request = scrapy.Request(link_to_comments + '?page=1',
             callback=self.parse_reviews_pages)
-        request.meta['url'] = link_to_comments
-        request.meta['page'] = 1
+        request.meta['page_url'] = link_to_comments
+        request.meta['page_num'] = 1
         yield request
 
 
@@ -54,7 +54,9 @@ class CommentCrawler(scrapy.Spider):
 
             # TODO: also extract the year and class of the student, which is missing from
             # the full review page
-            full_review_link = container.xpath('div[3]/a/@href').extract()
+            comment = container.xpath('div[2]/text()').extract()
+            #full_review_link = container.xpath('div[3]/a/@href').extract()
+            yield {'comment':comment}
 
 
         # Check next page of comments via recusion

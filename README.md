@@ -12,7 +12,8 @@ First, a list of universities and colleges will be scraped from links on three d
 
 The first two pages contain links to search results of schools with different search terms.
 
-The third page is a list of universities in Alabama (AL) but it also contains a navigation bar with links to pages containing a list of universities in other states and some countries (ex. Canada, UK, China). We use the navigation bar to scrape the list of universities beyond those in Alabama.
+The third page is a list of universities in Alabama (AL). However, it also contains a navigation bar with links to pages containing a list of universities in other states and some countries (ex. Canada, UK, China). We use the navigation bar to scrape the list of universities beyond those in Alabama.
+
 
 ### Obtaining Links
 We create two scrapers. One called [via_search.py](scraping_studentsreviews/spiders/via_search.py) which extracts a link to each school's information page via the first two pages (above). The second scraper ([via_listing.py](scraping_studentsreviews/spiders/via_listing.py)) also scrapes links but through the third page (above).

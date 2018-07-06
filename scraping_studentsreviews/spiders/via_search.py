@@ -9,29 +9,31 @@ class ViaSearchSpider(scrapy.Spider):
 
     # These pages link to various search results by category,
     # from which we will extract links to the school page.
-    start_urls =[
-        'http://www.studentsreview.com/college-search/lists-of-colleges-in-state.php3',
-        'http://www.studentsreview.com/college-search/lists-of-colleges-in-city.php3',
-        ]
+    def start_requests(self):
+        '''Parses each list of search categories'''
+        start_urls =[
+            'http://www.studentsreview.com/college-search/lists-of-colleges-in-state.php3',
+            'http://www.studentsreview.com/college-search/lists-of-colleges-in-city.php3',
+            ]
+        for url in start_urls:
+            yield scrapy.Request(url=url, callback=self.parse_catlist)
 
 
     # Parse the page with links by category to search pages
-    def parse(self, response):
+    def parse_catlist(self, response):
+        '''Given a response that contains a list of search categories,
+        apply the search to find college pages.'''
 
-        list_container = response.xpath('//div[@id="content"]//div[@class="leftColumn"]')
+        xpath = '//div[@id="content"]//div[@class="leftColumn"]'
+        list_container = response.xpath(xpath)
         links_to_search_results = list_container.xpath('a')
 
         for link in links_to_search_results:
             search_query = link.xpath('text()').extract_first()
             search_results_page = link.xpath('@href').extract_first()
 
-            print(search_query, search_results_page)
-
             # Extract the page for the category
-            request = scrapy.Request(search_results_page + '?page=1',
-                                     callback=self.parse_search_results)
-            request.meta['page_url'] = search_results_page
-            request.meta['page_num'] = 1
+            request = self.make_paged_request(page_url)
             yield request
 
 
@@ -40,21 +42,27 @@ class ViaSearchSpider(scrapy.Spider):
         go to each result and obtain the links to each institution.'''
 
         # Obtain the link to the comments page for each result
-        results = response.xpath('//table[@class="searchresults"]//td[@class="resultschool"]')
+        xpath = '//table[@class="searchresults"]//td[@class="resultschool"]'
+        results = response.xpath(xpath)
 
         for result in results:
             school_page = result.xpath('div/a[1]/text()').extract_first()
             school_link = result.xpath('div/a[1]/@href').extract_first()
-
-            yield {'school link': school_link}
+            yield {'link': school_link}
 
         # Check next page of results via recursion
         page_url = response.meta['page_url']
         page_num = response.meta['page_num']
         if len(results) > 0:
-            page_num += 1
-            next_request = scrapy.Request(page_url + '?page=' + str(page_num),
-                                          callback=self.parse_search_results)
-            next_request.meta['page_url'] = page_url
-            next_request.meta['page_num'] = page_num + 1
+            next_request = self.make_paged_request(page_url, page_num+1)
             yield next_request
+
+        
+    def make_paged_request(self, page_url, page_num=1):
+        '''Returns a scrapy request with page information in the meta.'''
+        page_query = '?page={:d}'.format(page_num)
+        request = scrapy.Request(page_url + page_query,
+            callback=self.parse_search_results)
+        request.meta['page_url'] = page_url
+        request.meta['page_num'] = page_num
+        return request

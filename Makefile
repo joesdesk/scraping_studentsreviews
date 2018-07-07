@@ -1,3 +1,5 @@
+all: comment_pages.csv
+
 # Create lists of college URLs
 via_listing.csv:
 	scrapy crawl via_listing -o 'via_listing.csv'

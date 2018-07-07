@@ -20,7 +20,7 @@ class CommentPagesCrawler(scrapy.Spider):
         '''Extracts links from files and starts the scraping process.'''
 
         # Collect all links from the files
-        files = ['via_search.csv', 'via_listing.csv']
+        files = ['data/via_search.csv', 'data/via_listing.csv']
         for filename in files:
             links = []
             with open(filename, 'r') as f:

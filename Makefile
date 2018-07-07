@@ -1,4 +1,4 @@
-all: comment_pages.csv
+all: data/comment_pages.csv
 
 # Create lists of college URLs
 data/via_listing.csv:

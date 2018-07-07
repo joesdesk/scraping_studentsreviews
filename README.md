@@ -43,7 +43,7 @@ This creates a the csv `comment_pages.csv` in the root directory containing the 
 
 
 ## via the Cloud: Amazon EC2
-Because of the number of pages to scrape, scraping the links may take several hours overnight if the internet connection is slow. The task can be performed much faster through the cloud. I used an Amazon EC2 instance to do this. Using the following procedure, it only takes a few 
+Because of the number of pages to scrape, scraping the links may take several hours overnight if the internet connection is slow. The task can be performed much faster through the cloud. I used an Amazon EC2 instance to do this. Using the following procedure, it only took about 20 minutes to obtain the data.
 
 
 ## Resources

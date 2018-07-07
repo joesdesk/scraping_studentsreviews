@@ -24,22 +24,22 @@ We create two scrapers. One called [via_search.py](scraping_studentsreviews/spid
 To run the scraper to obtain the links, run
 ```
 cd path/to/repository/
-scrapy crawl via_search -o 'via_search.csv'
-scrapy crawl via_listing -o 'via_listing.csv'
+scrapy crawl via_search -o 'data/via_search.csv'
+scrapy crawl via_listing -o 'data/via_listing.csv'
 ```
 
-This creates two csv's in the root of the repository. The csv's only have one column which contain the links. The column has a header named `link`.
+This creates two csv's in the data folder of the repository. The csv's only have one column which contain the links. The column has a header named `link`.
 
 
 ### Creating a list of full comment pages
-Once a list of institutions has been created, we remove duplicates that might have resulted from our aggressive search for a list of colleges. We then have a list of urls containing information about the institution. Oddly enough, some are aliases of each other. To remedy this, we follow the url on the page to itself so we get the 'official' url. We then go through a second round of duplicate removal. The first page containing a summary of the comments can be obtained by making a tweak to the 'official' url.
+Once a list of institutions has been created, we remove duplicates that might have resulted from our aggressive search for a list of colleges. We then have a list of URLs containing information about the institution. Oddly enough, some are aliases of each other. To remedy this, we follow the url on the page to itself so we get the 'official' URL. We then go through a second round of duplicate removal. The first page containing a summary of the comments can be obtained by making a tweak to the 'official' URL.
 
 To run the scraper to obtain the links to the colleges.
 ```
-scrapy crawl comment_pages -o 'comment_pages.csv'
+scrapy crawl comment_pages -o 'data/comment_pages.csv'
 ```
 
-This creates a the csv `comment_pages.csv` in the root directory containing the list of URLs for each institution.
+This creates a the csv `comment_pages.csv` in the `data` directory containing the list of URLs for each institution.
 
 
 ## via the Cloud: Amazon EC2

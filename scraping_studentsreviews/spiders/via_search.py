@@ -33,7 +33,7 @@ class ViaSearchSpider(scrapy.Spider):
             search_results_page = link.xpath('@href').extract_first()
 
             # Extract the page for the category
-            request = self.make_paged_request(page_url)
+            request = self.make_paged_request(search_results_page)
             yield request
 
 
@@ -57,7 +57,7 @@ class ViaSearchSpider(scrapy.Spider):
             next_request = self.make_paged_request(page_url, page_num+1)
             yield next_request
 
-        
+
     def make_paged_request(self, page_url, page_num=1):
         '''Returns a scrapy request with page information in the meta.'''
         page_query = '?page={:d}'.format(page_num)

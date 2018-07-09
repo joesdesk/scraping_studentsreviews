@@ -106,7 +106,7 @@ class SchoolsSpider(scrapy.Spider):
         school_link_xpath = ".//ul[@class='schoolmenu']/li[contains(@class,'Undergrad')]/a/@href"
         school_link = header.xpath(school_link_xpath).extract_first()
 
-        if (school_link not in self.urls) and (school_link not None):
+        if (school_link not in self.urls) and (school_link is not None):
             request = scrapy.Request(school_link, callback=self.get_infos)
             yield request
 

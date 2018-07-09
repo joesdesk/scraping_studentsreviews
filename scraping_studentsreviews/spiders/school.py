@@ -106,9 +106,9 @@ class SchoolsSpider(scrapy.Spider):
         school_link_xpath = ".//ul[@class='schoolmenu']/li[contains(@class,'Undergrad')]/a/@href"
         school_link = header.xpath(school_link_xpath).extract_first()
 
-        request = scrapy.Request(school_link, callback=self.get_infos)
-        yield request
-
+        if school_link not in self.urls:
+            request = scrapy.Request(school_link, callback=self.get_infos)
+            yield request
 
     def get_infos(self, response):
         '''Extracts school information.'''
@@ -116,6 +116,5 @@ class SchoolsSpider(scrapy.Spider):
         school_name_xpath = ".//div[@id='mainContainer']/div[@id='content']/h1[@id='uname']/text()"
         school_name = response.xpath(school_name_xpath).extract_first()
 
-        url = response.url
-        if url not in self.urls:
-            yield {'school_name': school_name, 'school_url': response.url}
+        yield {'school_name': school_name, 'school_url': response.url}
+    
